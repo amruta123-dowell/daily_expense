@@ -1,3 +1,22 @@
+buildscript {
+    ext.kotlin_version = '1.8.0'
+
+    repositories {
+        // Gradle 4.1 and higher include support for Google's Maven repo using
+        // the google() method. And you need to include this repo to download
+        // Android Gradle plugin 3.0.0 or higher.
+        google()
+        mavenCentral()
+    
+    }
+   dependencies {
+    classpath 'com.android.tools.build:gradle:7.3.0'
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    classpath 'com.google.gms:google-services:4.3.8'
+   }
+}
+
+
 allprojects {
     repositories {
         google()
@@ -16,3 +35,10 @@ subprojects {
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
+
+  // ...
+
+// //   // Add the dependency for the Google services Gradle plugin
+//  apply plugin id 'com.google.gms.google-services' version '4.4.2' apply false
+
+
