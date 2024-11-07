@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_expense/ui/sign_in_screens/bloc/signin_bloc.dart';
+
 import 'package:flutter_application_expense/ui/sign_up_screens/bloc/signup_bloc.dart';
+import 'package:flutter_application_expense/utils/app_routes.dart';
+import 'package:flutter_application_expense/utils/navigator_class.dart';
+import 'package:flutter_application_expense/widgets/snackbar_widget.dart';
+import 'package:flutter_application_expense/widgets/submit_button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../widgets/textfield_wodget.dart';
+import 'bloc/signup_event.dart';
 import 'bloc/signup_state.dart';
 
 class SignUpScreen extends StatelessWidget {
@@ -11,7 +16,7 @@ class SignUpScreen extends StatelessWidget {
   static Widget builder(BuildContext context) {
     return BlocProvider(
       create: (context) {
-        return SigninBloc();
+        return SignupBloc()..add(InitializeSignupEvent());
       },
       child: SignUpScreen(),
     );
@@ -29,7 +34,7 @@ class SignUpScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Sign up",
+                  "Create an Account",
                   style: Theme.of(context)
                       .textTheme
                       .bodyLarge
@@ -38,28 +43,57 @@ class SignUpScreen extends StatelessWidget {
                 const SizedBox(
                   height: 60,
                 ),
+                // TextFieldWidget(
+                //   tecController:
+                //       state.usernameController ?? TextEditingController(),
+                //   title: "Username",
+                //   errorText: state.emailError,
+                // ),
+                // const SizedBox(
+                //   height: 15,
+                // ),
                 TextFieldWidget(
-                    tecController:
-                        state.usernameController ?? TextEditingController(),
-                    title: "Username"),
+                  tecController:
+                      state.emailController ?? TextEditingController(),
+                  title: "Email",
+                  errorText: state.emailError,
+                ),
                 const SizedBox(
                   height: 15,
                 ),
                 TextFieldWidget(
-                    tecController:
-                        state.emailController ?? TextEditingController(),
-                    title: "Email"),
-                const SizedBox(
-                  height: 15,
+                  tecController:
+                      state.passController ?? TextEditingController(),
+                  title: "Password",
+                  errorText: state.passwordError,
                 ),
-                TextFieldWidget(
-                    tecController:
-                        state.passController ?? TextEditingController(),
-                    title: "Password"),
                 const SizedBox(
                   height: 30,
                 ),
-                ElevatedButton(onPressed: () {}, child: const Text("Sign up"))
+
+                SubmitButton(onClickButton: () {
+                  context
+                      .read<SignupBloc>()
+                      .add(OnclickSignupEvent(onFailure: (msg) {
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(SnackbarWidget(content: Text(msg)));
+                  }));
+                }),
+                const SizedBox(
+                  height: 12,
+                ),
+                const SizedBox(height: 12),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text("Already have account? "),
+                    InkWell(
+                        onTap: () {
+                          NavigatorClass().pushNamed(AppRoutes.signinScreen);
+                        },
+                        child: const Text("Sign in"))
+                  ],
+                )
               ],
             ),
           );

@@ -3,6 +3,7 @@ import 'package:flutter_application_expense/ui/sign_in_screens/bloc/signin_bloc.
 import 'package:flutter_application_expense/ui/sign_in_screens/bloc/signin_state.dart';
 import 'package:flutter_application_expense/utils/app_routes.dart';
 import 'package:flutter_application_expense/utils/navigator_class.dart';
+import 'package:flutter_application_expense/widgets/snackbar_widget.dart';
 import 'package:flutter_application_expense/widgets/submit_button.dart';
 import 'package:flutter_application_expense/widgets/textfield_wodget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,6 +41,7 @@ class SignInScreen extends StatelessWidget {
                   height: 60,
                 ),
                 TextFieldWidget(
+                    errorText: state.emailError,
                     tecController:
                         state.emailController ?? TextEditingController(),
                     title: "Email"),
@@ -47,6 +49,7 @@ class SignInScreen extends StatelessWidget {
                   height: 15,
                 ),
                 TextFieldWidget(
+                    errorText: state.passwordError,
                     tecController:
                         state.passController ?? TextEditingController(),
                     title: "Password"),
@@ -55,7 +58,13 @@ class SignInScreen extends StatelessWidget {
                 ),
                 SubmitButton(
                   onClickButton: () {
-                    context.read<SigninBloc>().add(const SubmitSigninEvent());
+                    context
+                        .read<SigninBloc>()
+                        .add(SubmitSigninEvent(onFailure: (msg) {
+                      SnackbarWidget(
+                        content: Text(msg),
+                      );
+                    }));
                   },
                 ),
                 const SizedBox(height: 12),
@@ -65,7 +74,6 @@ class SignInScreen extends StatelessWidget {
                     const Text("Are you new user? "),
                     InkWell(
                         onTap: () {
-                          print(" Gvdgvdgvdddvgdv  ");
                           NavigatorClass().pushNamed(AppRoutes.signupScreen);
                         },
                         child: const Text("Sign up"))

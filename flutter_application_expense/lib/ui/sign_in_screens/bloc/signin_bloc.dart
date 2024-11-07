@@ -3,8 +3,11 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_expense/data/api_provider.dart';
 
 import 'package:flutter_application_expense/ui/sign_in_screens/bloc/signin_state.dart';
+import 'package:flutter_application_expense/utils/app_routes.dart';
+import 'package:flutter_application_expense/utils/navigator_class.dart';
 import 'package:flutter_application_expense/utils/validators.dart';
 
 import 'signin_event.dart';
@@ -14,17 +17,25 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
     on<SigninInitializeEvent>(_initialize);
     on<SubmitSigninEvent>(_onClickSignin);
   }
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final ApiProvider _apiProvider = ApiProvider();
   FutureOr<void> _onClickSignin(
       SubmitSigninEvent event, Emitter<SigninState> emit) async {
     String email = state.emailController?.text ?? "";
     String pass = state.passController?.text ?? "";
-    if (_validateTextField(emit)) {
+
+    if (!_validateTextField(emit)) {
       return;
     }
     try {
       if (email.isNotEmpty && pass.isNotEmpty) {
-        await _auth.signInWithEmailAndPassword(email: email, password: pass);
+        await _apiProvider.signIn(email: email, password: pass).then((value) {
+          if (value.isSuccess) {
+            emit(state.copyWith(userData: value.data));
+            NavigatorClass().pushNamed(AppRoutes.initialScreen);
+          } else if (value.isFailure) {
+            event.onFailure?.call(value.error ?? "");
+          }
+        });
       }
     } catch (error) {
       print(error);

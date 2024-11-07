@@ -6,8 +6,10 @@ class SignupEvent extends Equatable {
 }
 
 class OnclickSignupEvent extends SignupEvent {
+  final Function(String)? onFailure;
+  OnclickSignupEvent({this.onFailure});
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [onFailure];
 }
 
 class InitializeSignupEvent extends SignupEvent {

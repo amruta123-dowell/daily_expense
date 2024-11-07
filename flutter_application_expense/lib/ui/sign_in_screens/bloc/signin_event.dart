@@ -8,9 +8,10 @@ class SigninEvent extends Equatable {
 }
 
 class SubmitSigninEvent extends SigninEvent {
-  const SubmitSigninEvent();
+  final Function(String)? onFailure;
+  const SubmitSigninEvent({this.onFailure});
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [onFailure];
 }
 
 class SigninInitializeEvent extends SigninEvent {}

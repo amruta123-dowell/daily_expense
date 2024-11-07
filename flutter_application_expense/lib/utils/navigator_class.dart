@@ -7,4 +7,8 @@ class NavigatorClass {
     return navigatorKey.currentState
         ?.pushNamed<Object?>(routeName, arguments: arg);
   }
+
+  void pop() {
+    return navigatorKey.currentState?.pop();
+  }
 }

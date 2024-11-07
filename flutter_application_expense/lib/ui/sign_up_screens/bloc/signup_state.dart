@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SignupState extends Equatable {
@@ -7,14 +8,17 @@ class SignupState extends Equatable {
   final TextEditingController? usernameController;
   final String? emailError;
   final String? passwordError;
+  final UserCredential? userData;
+  final String? errorMessage;
 
-  const SignupState({
-    this.emailController,
-    this.passController,
-    this.usernameController,
-    this.emailError,
-    this.passwordError,
-  });
+  const SignupState(
+      {this.emailController,
+      this.passController,
+      this.usernameController,
+      this.emailError,
+      this.passwordError,
+      this.userData,
+      this.errorMessage});
 
   @override
   List<Object?> get props => [
@@ -22,7 +26,9 @@ class SignupState extends Equatable {
         passController,
         usernameController,
         emailError,
-        passwordError
+        passwordError,
+        userData,
+        errorMessage,
       ];
 
   SignupState copyWith(
@@ -30,12 +36,16 @@ class SignupState extends Equatable {
       TextEditingController? passwordController,
       TextEditingController? usernameController,
       String? emailError,
-      String? passwordError}) {
+      String? passwordError,
+      UserCredential? userData,
+      String? error}) {
     return SignupState(
         emailController: emailController ?? this.emailController,
         passController: passwordController ?? passController,
         usernameController: usernameController ?? this.usernameController,
         emailError: emailError ?? this.emailError,
-        passwordError: passwordError ?? this.emailError);
+        passwordError: passwordError ?? this.emailError,
+        userData: userData ?? this.userData,
+        errorMessage: error ?? errorMessage);
   }
 }
