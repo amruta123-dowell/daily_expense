@@ -1,3 +1,4 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -17,7 +18,21 @@ class DropdownWidget<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Container(
+      height: 40,
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton2<T>(
+            value: selectedItem,
+            isDense: true,
+            isExpanded: true,
+            hint:
+                selectedItem != null ? Text(_itemDisplay(selectedItem)) : null,
+            items: itemList.map((item) {
+              return DropdownMenuItem<T>(
+                  value: item, child: Text(_itemDisplay(item)));
+            }).toList()),
+      ),
+    );
   }
 }
 
@@ -39,9 +54,9 @@ class MonthSelector extends StatelessWidget {
     return Container(
       height: 30, // Fixed height for the container
       width: 120,
-      padding: EdgeInsets.symmetric(horizontal: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 5),
       decoration: BoxDecoration(
-        color: Color.fromARGB(255, 230, 226, 229),
+        color: const Color.fromARGB(255, 230, 226, 229),
         borderRadius: BorderRadius.circular(20),
       ),
       child: ListWheelScrollView.useDelegate(
@@ -69,5 +84,20 @@ class MonthSelector extends StatelessWidget {
         },
       ),
     );
+  }
+}
+
+String _itemDisplay(item) {
+  switch (item.runtimeType) {
+    case String:
+      return item.toString();
+    // case BaseModel:
+    //   return (item as BaseModel).name;
+    // case Shift:
+    //   return (item as Shift).shift ?? '';
+    // case WeekModel:
+    //   return (item as WeekModel).day;
+    default:
+      return item.toString();
   }
 }

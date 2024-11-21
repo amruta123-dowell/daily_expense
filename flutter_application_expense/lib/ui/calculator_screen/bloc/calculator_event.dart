@@ -13,3 +13,7 @@ class OnChangeAmountEvent extends CalculatorEvent {
 }
 
 class CalculatorInitialEvent extends CalculatorEvent {}
+
+class OnSubmitSalaryEvent extends CalculatorEvent {
+  OnSubmitSalaryEvent();
+}

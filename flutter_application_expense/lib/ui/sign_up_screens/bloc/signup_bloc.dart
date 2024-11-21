@@ -46,11 +46,11 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
         if (result.isSuccess) {
           UserModel newUser = UserModel(
               email: email, pass: password, uid: result.data?.user?.uid);
-          final usersCollectionRef = await FirebaseFirestore.instance
-              .collection("(default)")
-              .doc(result.data?.user?.uid)
-              .get();
-          usersCollectionRef;
+          // final usersCollectionRef = await FirebaseFirestore.instance
+          //     .collection("(default)")
+          //     .doc(result.data?.user?.uid)
+          //     .get();
+          // usersCollectionRef;
           emit(state.copyWith(userData: result.data));
           NavigatorClass().pushNamed(AppRoutes.homeScreen);
         } else if (result.isFailure) {

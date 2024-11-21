@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_application_expense/ui/add_transaction_screen/add_spend_screen.dart';
 import 'package:flutter_application_expense/ui/calculator_screen/calculator_screen.dart';
 import 'package:flutter_application_expense/ui/home_screens/home_screen.dart';
 import 'package:flutter_application_expense/ui/initial_screen/initial_screen.dart';
@@ -11,11 +12,15 @@ class AppRoutes {
   static String homeScreen = "/homeScreen";
   static String initialScreen = "/initialScreen";
   static String calculatorScreen = "/calculatorScreen";
+  static String addTransactionScreen = "/addTransactionScreen";
+  static String addSpendAmtScreen = "/addSpendAmtScreen";
+
   Map<String, WidgetBuilder> get routes => {
         signinScreen: (context) => SignInScreen.builder(context),
         signupScreen: (context) => SignUpScreen.builder(context),
         homeScreen: (context) => HomeScreen.builder(context),
         initialScreen: InitialScreen.builder,
-        calculatorScreen:CalculatorScreen.builder
+        calculatorScreen: CalculatorScreen.builder,
+        addSpendAmtScreen: (context) => AddSpendAmtScreen.builder(context),
       };
 }

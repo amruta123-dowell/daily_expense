@@ -13,3 +13,5 @@ class OnselectedMonthEvent extends HomewidgetEvent {
   @override
   List<Object?> get props => [selectedIndex];
 }
+
+class CallSalaryAPIEvent extends HomewidgetEvent {}

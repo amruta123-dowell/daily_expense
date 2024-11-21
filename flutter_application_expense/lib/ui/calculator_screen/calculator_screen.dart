@@ -49,6 +49,17 @@ class CalculatorScreen extends StatelessWidget {
                             color: Colors.greenAccent,
                           ),
                           child: Text("${state.currentValue} \u20B9")),
+                      InkWell(
+                        onTap: () {
+                          context
+                              .read<CalculatorBloc>()
+                              .add(OnSubmitSalaryEvent());
+                        },
+                        child: Container(
+                          height: 50,
+                          child: Text("Submit"),
+                        ),
+                      ),
                     ],
                   ),
                 ),
