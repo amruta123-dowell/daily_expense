@@ -3,18 +3,22 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_application_expense/enums/spend_cat.dart';
 
 import 'package:flutter_application_expense/utils/month.dart';
 
+import '../../../../utils/app_routes.dart';
+import '../../../../utils/navigator_class.dart';
 import 'home_widget_event.dart';
 
 import 'home_widget_state.dart';
 
-class HomeWidgetBloc extends Bloc<HomewidgetEvent, HomeWidgetState> {
+class HomeWidgetBloc extends Bloc<HomeWidgetEvent, HomeWidgetState> {
   HomeWidgetBloc() : super(HomeWidgetState()) {
     on<InitialHomeWidgetEvent>(_initialize);
     on<OnselectedMonthEvent>(_onChangeMonth);
     on<CallSalaryAPIEvent>(_callSalaryAPIEvent);
+    on<OnSelectedExpenseCatEvent>(_navigateToAddExpenseScreen);
   }
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -51,5 +55,13 @@ class HomeWidgetBloc extends Bloc<HomewidgetEvent, HomeWidgetState> {
     } else {
       print("the data is not found");
     }
+  }
+
+  FutureOr<void> _navigateToAddExpenseScreen(
+      OnSelectedExpenseCatEvent event, Emitter<HomeWidgetState> emit) {
+    Map<String, SpendCat> arg = {
+      "spendCat": state.categoryList[event.selectedCatIndex]["title"]
+    };
+    NavigatorClass().pushNamed(AppRoutes.addSpendAmtScreen, arg: arg);
   }
 }

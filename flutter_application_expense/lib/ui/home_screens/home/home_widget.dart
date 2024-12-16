@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_expense/ui/add_transaction_screen/bloc/add_spend_bloc.dart';
+import 'package:flutter_application_expense/ui/add_transaction_screen/bloc/add_spend_state.dart';
 
 import 'package:flutter_application_expense/ui/home_screens/home/home_bloc/home_widget_bloc.dart';
 import 'package:flutter_application_expense/ui/home_screens/home/home_bloc/home_widget_event.dart';
@@ -9,10 +11,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class HomeWidget extends StatelessWidget {
   const HomeWidget({super.key});
   static Widget builder(BuildContext context) {
-    return BlocProvider<HomeWidgetBloc>(
-      create: (context) => HomeWidgetBloc()..add(InitialHomeWidgetEvent()),
-      child: HomeWidget(),
-    );
+    return MultiBlocProvider(providers: [
+      // BlocProvider<AddSpendBloc>(create: (context) => AddSpendBloc()),
+      BlocProvider<HomeWidgetBloc>(
+        create: (context) => HomeWidgetBloc()..add(InitialHomeWidgetEvent()),
+      ),
+    ], child: HomeWidget());
   }
 
   @override
@@ -101,6 +105,11 @@ class HomeWidget extends StatelessWidget {
                           ),
                           const SizedBox(height: 15),
                           _ExpenseCategoryWidget(
+                            onSelectedCat: (index) {
+                              context.read<HomeWidgetBloc>().add(
+                                  OnSelectedExpenseCatEvent(
+                                      selectedCatIndex: index));
+                            },
                             catList: state.categoryList,
                           ),
                           const SizedBox(height: 18),
@@ -121,7 +130,7 @@ class HomeWidget extends StatelessWidget {
                       ),
                     ),
                   ),
-                )
+                ),
               ],
             );
           },
@@ -225,7 +234,9 @@ class _AmountWidget extends StatelessWidget {
 
 class _ExpenseCategoryWidget extends StatelessWidget {
   final List<Map<String, dynamic>> catList;
-  const _ExpenseCategoryWidget({super.key, required this.catList});
+  final Function(int selectedCatIndex) onSelectedCat;
+  const _ExpenseCategoryWidget(
+      {super.key, required this.catList, required this.onSelectedCat});
 
   @override
   Widget build(BuildContext context) {
@@ -236,27 +247,32 @@ class _ExpenseCategoryWidget extends StatelessWidget {
           shrinkWrap: true,
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {
-            return Card(
-              margin: EdgeInsets.zero,
-              child: Container(
-                height: 100,
-                width: 180,
-                decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 245, 244, 244),
-                    borderRadius: BorderRadius.circular(20)),
-                child: Column(
-                  children: [
-                    Container(
-                        height: 120,
-                        width: 80,
-                        child: Image.asset(catList[index]["img"])),
-                    Text(
-                      "0%",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                    Text(catList[index]["title"]),
-                  ],
+            return InkWell(
+              onTap: () {
+                onSelectedCat(index);
+              },
+              child: Card(
+                margin: EdgeInsets.zero,
+                child: Container(
+                  height: 100,
+                  width: 180,
+                  decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 245, 244, 244),
+                      borderRadius: BorderRadius.circular(20)),
+                  child: Column(
+                    children: [
+                      Container(
+                          height: 120,
+                          width: 80,
+                          child: Image.asset(catList[index]["img"])),
+                      Text(
+                        "0%",
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      Text(catList[index]["title"].desc),
+                    ],
+                  ),
                 ),
               ),
             );
