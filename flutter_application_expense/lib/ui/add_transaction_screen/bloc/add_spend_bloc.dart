@@ -14,11 +14,17 @@ class AddSpendBloc extends Bloc<AddSpendEvent, AddSpendState> {
 
   FutureOr<void> _initialize(
       AddSpendInitialEvent event, Emitter<AddSpendState> emit) {
-    emit(state.copyWith(selectedCat: event.selectedCat));
+    if (event.selectedTransactionType != null) {
+      emit(state.copyWith(
+          selectedTransactionType: event.selectedTransactionType,
+          isTransactionType: true));
+    } else {
+      emit(state.copyWith(selectedCat: event.selectedCat));
+    }
   }
 
   FutureOr<void> _onSelectedCat(
       OnSelectSpendCatEvent event, Emitter<AddSpendState> emit) {
-    emit(state.copyWith(selectedCat: state.catList[event.selectedItem ?? 0]));
+    emit(state.copyWith(selectedCat: event.selectedCatType));
   }
 }

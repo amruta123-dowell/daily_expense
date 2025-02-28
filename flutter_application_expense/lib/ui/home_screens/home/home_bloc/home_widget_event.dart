@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../../enums/spend_cat.dart';
+import '../../../../enums/spend_cat_enum.dart';
 
 class HomeWidgetEvent extends Equatable {
   @override
@@ -20,7 +20,9 @@ class CallSalaryAPIEvent extends HomeWidgetEvent {}
 
 class OnSelectedExpenseCatEvent extends HomeWidgetEvent {
   final int selectedCatIndex;
-  OnSelectedExpenseCatEvent({required this.selectedCatIndex});
+  final bool? isSelectedTransaction;
+  OnSelectedExpenseCatEvent(
+      {required this.selectedCatIndex, this.isSelectedTransaction});
   @override
   List<Object?> get props => [selectedCatIndex];
 }

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_application_expense/enums/spend_cat.dart';
+import 'package:flutter_application_expense/enums/spend_cat_enum.dart';
 
 import 'package:flutter_application_expense/utils/month.dart';
 
@@ -59,9 +59,16 @@ class HomeWidgetBloc extends Bloc<HomeWidgetEvent, HomeWidgetState> {
 
   FutureOr<void> _navigateToAddExpenseScreen(
       OnSelectedExpenseCatEvent event, Emitter<HomeWidgetState> emit) {
-    Map<String, SpendCat> arg = {
-      "spendCat": state.categoryList[event.selectedCatIndex]["title"]
+    Map<String, dynamic> arg = {
+      "spendCat": state.categoryList[event.selectedCatIndex]["title"],
     };
+    if (event.isSelectedTransaction == true) {
+      arg = {
+        "transactionType": state.transactionTypeList[event.selectedCatIndex]
+            ["title"],
+        "isSelectedTransaction": true,
+      };
+    }
     NavigatorClass().pushNamed(AppRoutes.addSpendAmtScreen, arg: arg);
   }
 }

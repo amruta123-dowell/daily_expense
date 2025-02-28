@@ -7,6 +7,7 @@ import 'package:flutter_application_expense/ui/screen_2/screen_2.dart';
 import 'package:flutter_application_expense/ui/screen_one/screen_one.dart';
 import 'package:flutter_application_expense/ui/sign_in_screens/sign_in_screen.dart';
 import 'package:flutter_application_expense/ui/sign_up_screens/sign_up_screen.dart';
+import 'package:flutter_application_expense/ui/splash_screen/splash_screen.dart';
 
 class AppRoutes {
   static String signinScreen = "/signinScreen";
@@ -19,6 +20,8 @@ class AppRoutes {
   static String screen1 = "/screen1";
   static String screen2 = "/screen2";
 
+  static String splashScreen = "/splashScreen";
+
   Map<String, WidgetBuilder> get routes => {
         signinScreen: (context) => SignInScreen.builder(context),
         signupScreen: (context) => SignUpScreen.builder(context),
@@ -27,6 +30,8 @@ class AppRoutes {
         calculatorScreen: CalculatorScreen.builder,
         addSpendAmtScreen: (context) => AddSpendAmtScreen.builder(context),
         screen1: (context) => ScreenOne.builder(context),
-        // screen2: (context)=> ScreenTwo.builder(context)
+
+        // screen2: (context)=> ScreenTwo.builder(context),
+        splashScreen: (context) => SplashScreen.builder(context)
       };
 }

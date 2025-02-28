@@ -14,4 +14,5 @@ class ImageConstant {
   static String paytmIcon = "assets/images/paytm_icon.png";
   static String netbankingIcon = "assets/images/net_banking.png";
   static String otherPaymentIcon = "assets/images/other_payment.png";
+  static String splashImg = "assets/images/splash_img.json";
 }

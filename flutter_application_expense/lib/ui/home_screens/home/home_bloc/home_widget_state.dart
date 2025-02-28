@@ -16,7 +16,7 @@ class HomeWidgetState extends Equatable {
   //   {"title": "Grocery", "img": ImageConstant.groceryIcon},
   //   {"title": "Others", "img": ImageConstant.otherExpenseIcon},
   // ];
-  final List<Map<String, String>> transactionTypelist = transactionCatList;
+  final List<Map<String, dynamic>> transactionTypeList = transactionCatList;
   // [
   //   {"title": "PhonePay", "img": ImageConstant.phonePayIcon},
   //   {"title": "GooglePay", "img": ImageConstant.googlePayIcon},

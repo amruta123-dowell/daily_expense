@@ -123,7 +123,13 @@ class HomeWidget extends StatelessWidget {
                           ),
                           const SizedBox(height: 20),
                           _TransactionTypeListWidget(
-                            transactionTypelist: state.transactionTypelist,
+                            transactionTypelist: state.transactionTypeList,
+                            onSelectedTransactionIndex: (index) {
+                              context.read<HomeWidgetBloc>().add(
+                                  OnSelectedExpenseCatEvent(
+                                      selectedCatIndex: index,
+                                      isSelectedTransaction: true));
+                            },
                           ),
                           const SizedBox(height: 10)
                         ],
@@ -289,61 +295,70 @@ class _ExpenseCategoryWidget extends StatelessWidget {
 
 class _TransactionTypeListWidget extends StatelessWidget {
   final List<Map<String, dynamic>> transactionTypelist;
+  final Function(int index) onSelectedTransactionIndex;
   const _TransactionTypeListWidget(
-      {super.key, required this.transactionTypelist});
+      {super.key,
+      required this.transactionTypelist,
+      required this.onSelectedTransactionIndex});
 
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
       padding: EdgeInsets.zero,
       itemBuilder: (context, index) {
-        return Container(
-          height: 80,
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: const Color.fromARGB(255, 245, 244, 244),
-            border: const Border(bottom: BorderSide(color: Colors.black)),
-          ),
-          child: Row(
-            children: [
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20)),
-                        child: Image.asset(transactionTypelist[index]["img"])),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      // crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          transactionTypelist[index]['title'],
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    )
-                  ],
+        return InkWell(
+          onTap: () {
+            onSelectedTransactionIndex(index);
+          },
+          child: Container(
+            height: 80,
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: const Color.fromARGB(255, 245, 244, 244),
+              border: const Border(bottom: BorderSide(color: Colors.black)),
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                          height: 50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20)),
+                          child:
+                              Image.asset(transactionTypelist[index]["img"])),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        // crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            transactionTypelist[index]['title'].transaction,
+                            style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(
-                  width: 60,
-                  child: Text(
-                    "240 \u20B9",
-                    style: TextStyle(color: Colors.red),
-                  )),
-            ],
+                SizedBox(
+                    width: 60,
+                    child: Text(
+                      "240 \u20B9",
+                      style: TextStyle(color: Colors.red),
+                    )),
+              ],
+            ),
           ),
         );
       },

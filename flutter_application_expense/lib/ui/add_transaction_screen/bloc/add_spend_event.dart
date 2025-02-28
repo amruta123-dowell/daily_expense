@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter_application_expense/enums/spend_cat.dart';
+import 'package:flutter_application_expense/enums/spend_cat_enum.dart';
 
 class AddSpendEvent extends Equatable {
   const AddSpendEvent();
@@ -10,14 +10,18 @@ class AddSpendEvent extends Equatable {
 
 class AddSpendInitialEvent extends AddSpendEvent {
   final SpendCat? selectedCat;
+  final TransactionType? selectedTransactionType;
+  // final TransactionType? transationType;
   @override
-  List<Object?> get props => [selectedCat];
-  const AddSpendInitialEvent({this.selectedCat});
+  List<Object?> get props => [selectedTransactionType, selectedCat];
+  const AddSpendInitialEvent({this.selectedTransactionType, this.selectedCat});
 }
 
 class OnSelectSpendCatEvent extends AddSpendEvent {
-  final int? selectedItem;
-  const OnSelectSpendCatEvent({this.selectedItem});
+  final SpendCat? selectedCatType;
+  final TransactionType? selectedTransactionType;
+  const OnSelectSpendCatEvent(
+      {this.selectedCatType, this.selectedTransactionType});
   @override
-  List<Object?> get props => [selectedItem];
+  List<Object?> get props => [selectedCatType, selectedTransactionType];
 }

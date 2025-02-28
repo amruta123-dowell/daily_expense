@@ -1,6 +1,6 @@
 import 'package:flutter_application_expense/utils/image_constant.dart';
 
-import '../enums/spend_cat.dart';
+import '../enums/spend_cat_enum.dart';
 
 final List<Map<String, dynamic>> expenseCatList = [
   {"title": SpendCat.shop, "img": ImageConstant.shoppingIcon},
@@ -9,11 +9,10 @@ final List<Map<String, dynamic>> expenseCatList = [
   {"title": SpendCat.grocery, "img": ImageConstant.groceryIcon},
   {"title": SpendCat.others, "img": ImageConstant.otherExpenseIcon},
 ];
-final List<Map<String, String>> transactionCatList = [
-  {"title": "PhonePay", "img": ImageConstant.phonePayIcon},
-  {"title": "GooglePay", "img": ImageConstant.googlePayIcon},
-  {"title": "Paytm", "img": ImageConstant.paytmIcon},
-  {"title": "Netbanking", "img": ImageConstant.netbankingIcon},
-  {"title": "Other Payment", "img": ImageConstant.otherPaymentIcon}
+final List<Map<String, dynamic>> transactionCatList = [
+  {"title": TransactionType.phonePay, "img": ImageConstant.phonePayIcon},
+  {"title": TransactionType.googlePay, "img": ImageConstant.googlePayIcon},
+  {"title": TransactionType.paytm, "img": ImageConstant.paytmIcon},
+  {"title": TransactionType.netBanking, "img": ImageConstant.netbankingIcon},
+  {"title": TransactionType.otherPayment, "img": ImageConstant.otherPaymentIcon}
 ];
-

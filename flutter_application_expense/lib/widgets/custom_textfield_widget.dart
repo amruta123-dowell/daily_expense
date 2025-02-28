@@ -18,7 +18,7 @@ class CustomTextFieldWidget extends StatelessWidget {
         if (title != null) ...[
           Text(
             title!,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.black,
               fontSize: 14,
             ),
@@ -28,7 +28,7 @@ class CustomTextFieldWidget extends StatelessWidget {
           ),
           Container(
             decoration: BoxDecoration(
-                color: Color.fromARGB(255, 248, 247, 247),
+                color: const Color.fromARGB(255, 248, 247, 247),
                 border: Border.all(color: Colors.grey),
                 borderRadius: BorderRadius.circular(10)),
             child: TextFormField(
@@ -42,7 +42,6 @@ class CustomTextFieldWidget extends StatelessWidget {
                   enabledBorder: InputBorder.none,
                   contentPadding: EdgeInsets.symmetric(horizontal: 7)),
             ),
-            
           ),
         ],
       ],

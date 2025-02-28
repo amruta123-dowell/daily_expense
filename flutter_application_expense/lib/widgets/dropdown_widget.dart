@@ -4,34 +4,82 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_application_expense/utils/month.dart';
 
+import '../enums/spend_cat_enum.dart';
+
 class DropdownWidget<T> extends StatelessWidget {
   final double? height;
   final double? width;
   final T? selectedItem;
   final List<T> itemList;
+  final String? title;
+  final Function(T?) onSelectedItem;
   const DropdownWidget(
       {super.key,
       this.height,
       this.width,
       this.selectedItem,
-      required this.itemList});
+      required this.itemList,
+      this.title,
+      required this.onSelectedItem});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 40,
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton2<T>(
-            value: selectedItem,
-            isDense: true,
-            isExpanded: true,
-            hint:
-                selectedItem != null ? Text(_itemDisplay(selectedItem)) : null,
-            items: itemList.map((item) {
-              return DropdownMenuItem<T>(
-                  value: item, child: Text(_itemDisplay(item)));
-            }).toList()),
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (title != null) ...[
+          Text(
+            title!,
+            style: const TextStyle(
+              color: Colors.black,
+              fontSize: 14,
+            ),
+          ),
+          const SizedBox(
+            height: 8,
+          )
+        ],
+        Container(
+          height: 50,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+              color: const Color.fromARGB(255, 248, 247, 247),
+              border: Border.all(color: Colors.grey),
+              borderRadius: BorderRadius.circular(10)),
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton2<T>(
+              value: selectedItem,
+              isDense: true,
+              isExpanded: true,
+              hint: selectedItem != null
+                  ? Text(_itemDisplay(selectedItem))
+                  : null,
+              items: itemList.map((item) {
+                return DropdownMenuItem<T>(
+                    value: item,
+                    child: Text(
+                      _itemDisplay(item),
+                      style: const TextStyle(color: Colors.black),
+                    ));
+              }).toList(),
+              onChanged: (value) {
+                onSelectedItem(value);
+                // print(value);
+              },
+              underline: const Divider(
+                color: Colors.pink,
+                height: 2,
+              ),
+              dropdownStyleData: DropdownStyleData(
+                  padding: EdgeInsets.zero,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: const Color.fromARGB(255, 248, 247, 247))),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -69,7 +117,7 @@ class MonthSelector extends StatelessWidget {
             return Center(
               child: Text(
                 monthList[index % 12].name, // Loop over months
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: Color.fromARGB(255, 87, 86, 86),
@@ -89,14 +137,13 @@ class MonthSelector extends StatelessWidget {
 
 String _itemDisplay(item) {
   switch (item.runtimeType) {
-    case String:
+    case const (String):
       return item.toString();
-    // case BaseModel:
-    //   return (item as BaseModel).name;
-    // case Shift:
-    //   return (item as Shift).shift ?? '';
-    // case WeekModel:
-    //   return (item as WeekModel).day;
+    case const (SpendCat):
+      return (item as SpendCat).desc;
+    case const (TransactionType):
+      return (item as TransactionType).transaction;
+
     default:
       return item.toString();
   }

@@ -12,6 +12,8 @@ class ApiProvider {
   Future<ApiResult<UserCredential>> signup(
       {required String email, required String password}) async {
     try {
+      ProgressDialogUtils.showProgressDialog();
+
       UserCredential response = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       FirebaseFirestore.instance.databaseId;
@@ -21,6 +23,8 @@ class ApiProvider {
       return ApiResult.success(response);
     } catch (error) {
       return ApiResult.failure(error.toString());
+    } finally {
+      ProgressDialogUtils.hideProgressDialog();
     }
   }
 
